@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="商城">
+    <meta name="description" content="">
+    <title>结算</title>
+
+    <link href="/plugins/zui/css/zui.css" rel="stylesheet">
+    <link href="/plugins/zui/css/zui-theme.css" rel="stylesheet">
+    <link href="/css/my.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="/plugins/zui/lib/ieonly/html5shiv.js"></script>
+    <script src="/plugins/zui/lib/ieonly/respond.js"></script>
+    <script src="/plugins/zui/lib/ieonly/excanvas.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div id="top"></div>
+
+<!-- 主内容 -->
+<div class="wrapper" style="min-height: 500px;">
+    <div class="panel" style="margin-top: 20px">
+        <div class="panel-heading" style="font-size: 18px">
+            <strong>购买记录</strong>
+        </div>
+        <form action="/payment" method="post" id="orderForm">
+            <div class="panel-body">
+                <br/> <br/>
+                <!--订单项列表-->
+                <form method="post">
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                            <tr class="text-center">
+                                <td colspan="2" class="text-left">商品信息</td>
+                                <td class="text-left">价格</td>
+                                <td>数量</td>
+                                <td>支付金额</td>
+                                <td>购买时间</td>
+                            </tr>
+                            </thead>
+                            <tbody id="order-list">
+
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </form>
+
+            </div>
+        </form>
+    </div>
+</div>
+<!-- /主内容 -->
+
+
+<div id="bottom"></div>
+
+<!-- /右侧浮动栏 -->
+
+<script src="/plugins/zui/lib/jquery/jquery.js"></script>
+<script src="/js/jquery.scrollUp.min.js"></script>
+<script src="/plugins/zui/js/zui.js"></script>
+<script src="/js/include.js"></script>
+<script src="/js/my.js"></script>
+
+
+<script>
+    $(function(){
+
+        //显示会员购买详情
+        $.ajax({
+            url:"/buy/record",
+            type:"get",
+            success:function(data){
+                var orderHtml="";
+                for(var i=0; i<data.data.length; i++){
+                    var cartItem = data.data[i];
+                    orderHtml+=' <tr>\n' +
+                        '                            <td style="width: 100px">\n<input type="hidden" name="ids" value="'+cartItem.product.id+'"/> <input type="hidden" name="amounts" value="'+cartItem.number+'"' +
+                        '                            <a href="/product_detail.html?id='+cartItem.product.id+'"><img src="/img/'+cartItem.product.thumbnail+'" title="" alt=""/></a>\n' +
+                        '                            </td>\n' +
+                        '                            <td class="text-left">\n' +
+                        '                            <a href="/product_detail.html?id='+cartItem.product.id+'" class="media-wrapper">'+cartItem.product.name+'</a>\n' +
+                        '                            </td>\n' +
+                        '                            <td style="width: 100px">\n' +
+                        '                            <div id="price">\n' +
+                        '                            '+cartItem.product.sale_price+'\n' +
+                        '                            </div>\n' +
+                        '                            </td>\n' +
+                        '                            <td style="width: 140px" align="center">\n' +
+                        '                            <div class="input-group">\n' +
+                        '                            <span id="amount">'+cartItem.number+'</span>\n' +
+                        '                            </div>\n' +
+                        '                            </td>\n' +
+                        '                            <td style="width: 160px" class="text-center text-middle">\n' +
+                        '                            <span  id="sum">'+(cartItem.product.sale_price*cartItem.number)+'</span>\n' +
+                        '                            </td>\n' +
+                        '                            <td style="width: 160px" class="text-center text-middle">\n' +
+                        '                            <span  id="sum">'+cartItem.product.paytime+'</span>\n' +
+                        '                            </td>\n' +
+                        '                            </tr>';
+                }
+                $("#order-list").html(orderHtml);
+            }
+        });
+
+    });
+</script>
+</body>
+</html>
