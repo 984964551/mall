@@ -74,7 +74,6 @@
 			//使用正则定义手机校验规则
 			var phoneReg= /^((13[0-9])|(17[0-1,6-8])|(15[^4,\\D])|(18[0-9]))\d{8}$/;
 			//对手机号进行校验
-
 			if(phoneReg.test(phone)){
 				//给手机号的边框添加绿色的样式
 				$("#mobile").css("border","1px solid green");
@@ -84,7 +83,6 @@
 				$("#mobile").css("border","1px solid red");
 				return false;
 			}
-
 		}
 
 		//验证密码(长度必须是6-18位)
